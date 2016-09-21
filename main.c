@@ -48,7 +48,7 @@
 
 #include "debug.h"
 
-#include <uthash.h>
+#include "uthash.h"
 
 // getattr
 static int multi_stat(const char *file_name, struct stat *buf)
