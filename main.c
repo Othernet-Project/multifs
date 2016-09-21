@@ -25,7 +25,7 @@
 	   (added support for extended attributes.)
  */
 #define _XOPEN_SOURCE 500
-#define _BSD_SOURCE 1
+#define _DEFAULT_SOURCE 1
 #include <fuse.h>
 #include <stdio.h>
 #include <unistd.h>
