@@ -1,0 +1,84 @@
+
+This FUSE fs combines several directories into a single one (union).
+
+Using
+~~~~~
+mount:
+multifs /path/to/dir1,/path/to/dir2[,/path/to/dir3] /path/to/mount
+
+unmount:
+fusermount -u /path/to/mount
+or
+umount /path/to/mount
+
+with an "-o option" you can specify some additional options:
+
+-o logfile=/path/to/file.log  
+	specify a file that will contain debug information.
+
+-o loglevel=x
+  0 - debug messages
+  1 - info messages
+  2 - standart (default) messages
+
+fuse-utils and  libfuse  are required for this to work. 
+libfuse-dev is needed for building
+
+
+Writing:
+File is written to the first directory listed, until is is "full", 
+and then second, and so on.
+
+df will show a total statistics of all filesystems like there  is
+a big one hdd.
+
+If an overflow arises while writing  to  the  hdd1  then  a  file
+content already written will be transferred to a  hdd  containing
+enough of free space for a file.  The transferring  is	processed
+on-the-fly,  fully  transparent  for  the  application	that   is
+writing.   So  this  behaviour	simulates  a  big  file   system.
+
+WARNING: The filesystems are combined must provide a  possibility
+to get their parameters correctly (e.g.   size	of  free  space).
+Otherwise the writing failure can  occur  (but	data  consistency
+will be ok anyway).  For example it is a bad idea  to  combine	a
+several sshfs systems together.
+
+File system's functions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Most of the functions are supported.
+
+Functions are supported:
+- get/set attributes of file system objects;
+- get/set file system information (total size, size of
+  free space is calculated as summary size of file systems);
+- read/remove/create directories;
+- read/remove/create/write files;
+- symbolic links;
+- device files, sockets and fifo;
+- file locks;
+- hardlinks (only on a single device; no moving support for 
+  hardlinked files)
+- extended file attributes (xattr);
+
+Build and Install
+~~~~~~~
+
+It's neccessary for install to have:
+1. FUSE header files
+2. GCC  
+3. libc6 header files
+4. uthash header files
+5. libattr1 header files (optional)
+
+Run 'make' in the source directory produces multifs binary. 
+
+
+COPYRIGHT
+~~~~~~~~~
+
+Distributed under GPLv3 and higher
+Copyright (C) 2008 Dmitry E. Oboukhov
+Copyright (C) 2016 Outernet Inc
+
